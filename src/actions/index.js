@@ -12,10 +12,10 @@ export const remove = (coffeeArray) => {
   }
 }
 
-export const cart = (order) => {
+export const cartAmount = (amount) => {
   return {
-    type: 'CART',
-    cart: order
+    type: 'CARTAMOUNT',
+    amount: amount
   }
 }
 

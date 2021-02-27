@@ -1,26 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { displayOrder } from '../actions';
-import FilterItems from './FilterItems';
-
-
+import FilterItems from './FilterItems'; // Forsätt här och bygg färdigt
 function Cart(props) {
   const dispatch = useDispatch();
   const displayCart = useSelector(state => state.displayCart);
-  const totalPriceFromReducer = useSelector(state => state.totalPrice);
-  const cartItem = useSelector(state => state.cart);
+  const cart = useSelector(state => state.cartAmount);
+  const totalPriceFromReducer = useSelector(state => state.totalPrice)
+
+
+  // const totalPriceFromReducer = useSelector(state => state.totalPrice);
   const history = useHistory();
-  console.log("New Value:", cartItem.coffeeType)
+  const [orderAmount, updateOrderAmount] = useState(0);
+
+  useEffect(() => {
+    if (cart !== 0) {
+      updateOrderAmount(cart)
+    }
+  }, [cart]);
 
   const loadCartAmount = () => {
-    if (cartItem.coffeeType.length === 0) {
-      return 0;
-    }
-    else {
-      return cartItem.coffeeType.length
-    }
+    return orderAmount;
   }
+
+
+
   return (
     <>
       <div className={`${displayCart ? 'adapt' : 'non-adapt'} cart-container`}>
@@ -40,7 +45,7 @@ function Cart(props) {
               Din beställning
             </h2>
             <div className="order-container">
-              <ul className="order-list"><FilterItems /></ul>
+              {/* <ul className="order-list"><FilterItems /></ul> */}
             </div>
             <div className="total-amount-container">
               <div className="total-amount">

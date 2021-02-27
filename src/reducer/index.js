@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux'
 import Add from './AddReducer';
 import Remove from './RemoveReducer';
-import Cart from './CartReducer';
+import CartAmount from './CartAmountReducer';
 import DisplayCart from './DisplayCartReducer';
 import TotalPrice from './TotalPriceReducer';
 
 const allReducers = combineReducers({
   add: Add,
   remove: Remove,
-  cart: Cart,
+  cartAmount: CartAmount,
   displayCart: DisplayCart,
   totalPrice: TotalPrice
 })

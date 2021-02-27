@@ -4,13 +4,29 @@ import ImageBottom from '../assets/graphics/graphics-footer.svg';
 import Header from '../components/Header.jsx';
 import loadingAnimation from '../assets/graphics/loader.png';
 import { useDispatch } from 'react-redux';
-import { cart } from '../actions';
+import { cartAmount } from '../actions';
 
 function Menu(props) {
   const dispatch = useDispatch();
 
   const addOrder = (e) => {
-    dispatch(cart([{ id: e.target.dataset.id, title: e.target.dataset.title, price: e.target.dataset.price }]));
+    let price = e.target.dataset.price;
+    let title = e.target.dataset.title;
+    let id = e.target.dataset.id;
+    let order = [{ id: id, title: title, price: price }]
+    let oldOrder = JSON.parse(localStorage.getItem('order'));
+    if (oldOrder === null) {
+      let saveOrder = JSON.stringify(order);
+      localStorage.setItem('order', saveOrder);
+      dispatch(cartAmount(order.length))
+    }
+    else {
+      order = [...oldOrder, { id: id, title: title, price: price }]
+      console.log("NEW ORDER: ", order)
+      localStorage.setItem('order', JSON.stringify(order));
+      dispatch(cartAmount(order.length))
+
+    }
   }
 
   return (
@@ -29,7 +45,7 @@ function Menu(props) {
           {
             props.list.map((index, key) => <li className="coffee-type" key={index.id}>
               <div className="button-container">
-                <button data-id={index.id} data-title={index.title} data-price={index.price} onClick={addOrder} type="button" className="btn add">
+                <button data-title={index.title} data-price={index.price} data-id={index.id} onClick={addOrder} type="button" className="btn add">
                   <div className="add-icon"></div>
                 </button>
               </div>

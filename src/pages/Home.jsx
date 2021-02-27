@@ -4,9 +4,13 @@ import Menu from '../components/Menu';
 import ImageLeft from '../assets/graphics/homeLeft.svg';
 import ImageRight from '../assets/graphics/homeRight.svg';
 import AirbeanLanding from '../assets/graphics/airbeanLanding.svg';
+import { useDispatch } from 'react-redux';
+import { cartAmount } from '../actions';
 
 
 function Home(props) {
+  const dispatch = useDispatch();
+
   const
     [loading, updateLoading] = useState(true),
     // Sätter upp menu
@@ -19,6 +23,7 @@ function Home(props) {
   }
 
   useEffect(() => {
+
     //Via async kan vi nu hämta vår menu.json fil och spara ner den i vår useState
     fetchMenu().then(res => {
       updateMenu(res.data.menu);
@@ -28,6 +33,14 @@ function Home(props) {
 
     const timer = setTimeout(() => {
       updateLoading(false);
+      //Kolla sidan om vår localstorage har data kvar från senaste avstängning... har vi då laddar vi om den
+      let oldOrder = JSON.parse(localStorage.getItem('order'));
+      if (oldOrder === null) {
+        return;
+      }
+      if (oldOrder !== 0 || oldOrder !== null) {
+        dispatch(cartAmount(oldOrder.length))
+      }
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
