@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Work+Sans:wght@400;600;700&display=swap");
+@import "./reset.scss";
+
+main {
+  //Fonts
+  $worksans: "Work Sans", sans-serif;
+  $ptserif: "PT Serif", serif;
+
+  // Colours
+  $Airbean_brown: #2f2926;
+  $Airbean_pink: #f3e4e1;
+  $Airbean_orange: #e5674e;
+  $Airbean_green: #38846d;
+  $Airbean_white: #fff;
+
+  // Pre-sets
+  @import "./header.scss";
+  min-height: 100vh;
+  width: 100%;
+  font-family: $ptserif;
+  @import "./button.scss";
+
+  .error-404 {
+    font-size: 3rem;
+    font-family: $worksans;
+    font-weight: 700;
+    color: $Airbean_green;
+    padding: 4rem;
+  }
+  .home-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 23.4375rem;
+    margin: 0 auto;
+    @import "./home.scss";
+    @import "./menu.scss";
+  }
+
+  .cart-container {
+    position: relative;
+    &.adapt {
+      z-index: 2;
+    }
+    &.non-adapt {
+      z-index: 0;
+    }
+    .badge {
+      border-radius: 50%;
+      background: $Airbean_orange;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: -0.25rem;
+      right: 0;
+      width: 1.375rem;
+      height: 1.375rem;
+      .number {
+        font-size: 0.875rem;
+        color: $Airbean_white;
+      }
+    }
+  }
+}

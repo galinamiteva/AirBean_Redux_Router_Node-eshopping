@@ -1,0 +1,79 @@
+.btn {
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  &.navigation,
+  &.add,
+  &.cart,
+  &.accept-order {
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: $Airbean_brown;
+    > div {
+      pointer-events: none;
+    }
+  }
+  &.accept-order {
+    width: 15.5rem;
+    height: 3.4375rem;
+    border-radius: 2rem;
+    color: $Airbean_white;
+    margin: 2rem auto;
+    > h2 {
+      font-family: $ptserif;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+  }
+
+  &.navigation {
+    background: $Airbean_white;
+    height: 3rem;
+    width: 3rem;
+    > div {
+      height: 1.625rem;
+      width: 1.625rem;
+      background: url("../assets/graphics/navicon.svg") center center no-repeat;
+    }
+  }
+
+  &.cart {
+    height: 3.75rem;
+    width: 3.75rem;
+    > div {
+      width: 1.0125rem;
+      height: 1.85rem;
+      background: url("../assets/graphics/bag.svg") center center no-repeat;
+    }
+  }
+
+  &.add {
+    > div {
+      width: 0.699375rem;
+      height: 0.699375rem;
+      background: url("../assets/graphics/add.svg") center center no-repeat;
+    }
+  }
+}
+
+.arrow {
+  border: none;
+  width: 100%;
+  height: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 0;
+  background-color: transparent;
+  &.arrow-up {
+    margin-bottom: 0.5rem;
+  }
+
+  &.arrow-down {
+    margin-top: 0.5rem;
+  }
+}
