@@ -9,8 +9,11 @@ import { cartAmount } from '../actions';
 
 
 function Home(props) {
+  let oldOrder = JSON.parse(localStorage.getItem('order'));
   const dispatch = useDispatch();
-
+  const loadLastedCart = () => {
+    dispatch(cartAmount(oldOrder.length))
+  }
   const
     [loading, updateLoading] = useState(true),
     // Sätter upp menu
@@ -34,12 +37,11 @@ function Home(props) {
     const timer = setTimeout(() => {
       updateLoading(false);
       //Kolla sidan om vår localstorage har data kvar från senaste avstängning... har vi då laddar vi om den
-      let oldOrder = JSON.parse(localStorage.getItem('order'));
       if (oldOrder === null) {
         return;
       }
       if (oldOrder !== 0 || oldOrder !== null) {
-        dispatch(cartAmount(oldOrder.length))
+        loadLastedCart()
       }
     }, 2000);
     return () => clearTimeout(timer);

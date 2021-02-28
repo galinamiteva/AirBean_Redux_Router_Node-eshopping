@@ -1,17 +1,3 @@
-export const add = (coffeeArray) => {
-  return {
-    type: 'ADD',
-    add: coffeeArray
-  }
-}
-
-export const remove = (coffeeArray) => {
-  return {
-    type: 'REMOVE',
-    remove: coffeeArray
-  }
-}
-
 export const cartAmount = (amount) => {
   return {
     type: 'CARTAMOUNT',
@@ -21,10 +7,18 @@ export const cartAmount = (amount) => {
 
 export const displayOrder = (boolean) => {
   return {
-    type: 'DISPLAY',
+    type: 'DISPLAYCART',
     display: boolean
   }
 }
+
+export const displayMenu = (boolean) => {
+  return {
+    type: 'DISPLAYMENU',
+    display: boolean
+  }
+}
+
 
 export const totalPrice = (totalPrice) => {
   return {

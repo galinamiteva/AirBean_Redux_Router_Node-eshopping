@@ -1,32 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { totalPrice } from '../actions';
-import ArrowUp from '../assets/graphics/arrow-up.svg';
-import ArrowDown from '../assets/graphics/arrow-down.svg';
-
-function Items(props) {
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
+import { cartAmount, totalPrice } from '../actions';
+function FilterItems(props) {
   const dispatch = useDispatch();
-  let totalOf = [];
-  let totalOfAllOrderInPrice = 0;
-  const cartItem = useSelector(state => state.cart);
-
-  const [filterRender, updateFilterRender] = useState([]);
-  let itemsInCart = [];
-  const FilterLoop = () => {
-    for (let i = 0; i < cartItem.coffeeType.length; i++) {
-      console.log('Items: ', cartItem.coffeeType[i][0])
-      itemsInCart.push(cartItem.coffeeType[i][0])
+  //Smyg kickar igång senaste TotalPrice från localStorage
+  const sneakyLoad = () => {
+    if (localStorage.getItem('totalPrice') === 0) {
+      return;
     }
-    updateFilterRender(itemsInCart)
+    else {
+      dispatch(totalPrice(localStorage.getItem('totalPrice')))
+    }
   }
 
-  const DisplayFilterItems = () => {
-    let price;
+  let totalOf = [];
+  let totalOfAllOrderInPrice = 0;
+  const [menu, updateMenu] = useState([{}])
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/beans').then(res => {
+      updateMenu(res.data.menu)
+    }).catch(err => console.error(err));
+
+    sneakyLoad()
+  }, [menu])
+
+  // Min super "advancerad" filter system (jag kunde nog minska denna om jag visste ett bättre sätt)
+  const FilterLoop = () => {
     let name;
+    let price;
     let id;
     let amount;
-    //Filterar ut kaffe sort och sparar allt från ordern och ska mappa ut det fint
-    let filterOfBrewCoffee = filterRender.filter(filter => filter.id === '1');
+    let order = JSON.parse(localStorage.getItem('order'));
+    if (order === null) {
+      return null;
+    }
+    let filterOfBrewCoffee = order.filter(filter => filter.id === '1');
     if (filterOfBrewCoffee.length !== 0) {
       for (let i = 0; i < filterOfBrewCoffee.length; i++) {
         price = filterOfBrewCoffee[i].price * filterOfBrewCoffee.length;
@@ -37,7 +47,7 @@ function Items(props) {
       totalOf.push({ id: id, title: name, price: price, amount: amount })
     }
 
-    let filterOfCaffeDoppio = filterRender.filter(filter => filter.id === '2');
+    let filterOfCaffeDoppio = order.filter(filter => filter.id === '2');
     if (filterOfCaffeDoppio.length !== 0) {
       for (let i = 0; i < filterOfCaffeDoppio.length; i++) {
         price = filterOfCaffeDoppio[i].price * filterOfCaffeDoppio.length;
@@ -47,7 +57,7 @@ function Items(props) {
       }
       totalOf.push({ id: id, title: name, price: price, amount: amount })
     }
-    let filterOfCappuccino = filterRender.filter(filter => filter.id === "3");
+    let filterOfCappuccino = order.filter(filter => filter.id === "3");
     if (filterOfCappuccino.length !== 0) {
       for (let i = 0; i < filterOfCappuccino.length; i++) {
         price = filterOfCappuccino[i].price * filterOfCappuccino.length;
@@ -57,7 +67,7 @@ function Items(props) {
       }
       totalOf.push({ id: id, title: name, price: price, amount: amount })
     }
-    let filterOfLatteMacchiato = filterRender.filter(filter => filter.id === "4");
+    let filterOfLatteMacchiato = order.filter(filter => filter.id === "4");
     if (filterOfLatteMacchiato.length !== 0) {
       for (let i = 0; i < filterOfLatteMacchiato.length; i++) {
         price = filterOfLatteMacchiato[i].price * filterOfLatteMacchiato.length;
@@ -68,7 +78,7 @@ function Items(props) {
       totalOf.push({ id: id, title: name, price: price, amount: amount })
     }
 
-    let filterOfCoffeeLatte = filterRender.filter(filter => filter.id === "5");
+    let filterOfCoffeeLatte = order.filter(filter => filter.id === "5");
     if (filterOfCoffeeLatte.length !== 0) {
       for (let i = 0; i < filterOfCoffeeLatte.length; i++) {
         price = filterOfCoffeeLatte[i].price * filterOfCoffeeLatte.length;
@@ -79,7 +89,7 @@ function Items(props) {
       totalOf.push({ id: id, title: name, price: price, amount: amount })
     }
 
-    let filterOfCortado = filterRender.filter(filter => filter.id === "6");
+    let filterOfCortado = order.filter(filter => filter.id === "6");
     if (filterOfCortado.length !== 0) {
       for (let i = 0; i < filterOfCortado.length; i++) {
         price = filterOfCortado[i].price * filterOfCortado.length;
@@ -93,18 +103,23 @@ function Items(props) {
     for (let i = 0; i < totalOf.length; i++) {
       totalOfAllOrderInPrice += totalOf[i].price;
     }
-    console.log(totalOf)
-    dispatch(totalPrice(totalOfAllOrderInPrice))
+    localStorage.setItem('totalPrice', totalOfAllOrderInPrice)
 
-    return totalOf.map((index, key) => <li key={key} className="order-list-item">
-      <div class="item-container">
-        <div class="order-item-container">
-          <h2 className="item-title">{index.title}</h2>
-          <span className="underline"></span>
+    return totalOf.map((item, key) => <li key={key} className="order-list-item">
+      <div className="item-container">
+        <div className="order-item-container">
+          <h2 className="item-title">{item.title}</h2>
+          <span className="underline" />
           <div className="arrow-amount-container">
-            <button type="button" className="arrow arrow-up"><img src={ArrowUp} alt="an arrow that points up" /></button>
-            <h4>{index.amount}</h4>
-            <button type="button" className="arrow arrow-down"><img src={ArrowDown} alt="an arrow that points down" /></button>
+            <button type="button" className="arrow up" data-id={item.id} onClick={addOrder}></button>
+            <h4>{item.amount}</h4>
+            <button type="button" className="arrow down" data-id={item.id} onClick={removeOrder}></button>
+          </div>
+        </div>
+        <div className="total-price-from-title">
+          <div className="total-price-container">
+            <h5 className="total-price">{item.price} kr</h5>
+            <span className="underline" />
           </div>
         </div>
 
@@ -112,17 +127,37 @@ function Items(props) {
     </li>)
 
   }
+  const addOrder = (e) => {
+    let add = e.target.dataset.id;
+    let newOrder = menu.filter(item => item.id === Number(add));
+    let oldOrder = JSON.parse(localStorage.getItem('order'));
+    if (oldOrder.length > 0) {
+      let order = [...oldOrder, { id: String(newOrder[0].id), title: newOrder[0].title, price: String(newOrder[0].price) }]
+      localStorage.setItem('order', JSON.stringify(order));
 
-  useEffect(() => {
-    FilterLoop();
-  }, [])
+      dispatch(cartAmount(order.length));
+      dispatch(totalPrice(localStorage.getItem('totalPrice')))
+    }
+  }
 
+  const removeOrder = (e) => {
+    let remove = e.target.dataset.id;
+    let oldOrder = JSON.parse(localStorage.getItem('order'));
+    for (let i = 0; i < oldOrder.length; i++) {
+      if (oldOrder[i].id === remove) {
+        oldOrder.splice(i, 1);
+        break;
+      }
+    }
+    localStorage.setItem('order', JSON.stringify(oldOrder));
+
+    dispatch(cartAmount(oldOrder.length));
+    dispatch(totalPrice(localStorage.getItem('totalPrice')))
+
+  }
   return (
-    //FILTER som ska kunna hitta alla 
-    <>
-      {DisplayFilterItems()}
-    </>
+    FilterLoop()
   );
 }
 
-export default Items;
+export default FilterItems;

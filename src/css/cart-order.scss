@@ -1,4 +1,15 @@
+@keyframes display {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .confirmation-box {
+  animation: display 250ms;
+  opacity: 1;
   width: 100%;
   position: absolute;
   left: 0;
@@ -21,9 +32,11 @@
     }
     padding-bottom: 2rem;
     min-height: 100%;
+
     background: #fff;
     max-width: 90%;
     margin: 5rem auto;
+
     .order-title {
       font-family: $ptserif;
       font-weight: 700;
@@ -33,14 +46,42 @@
       font-size: 2rem;
     }
     .order-container {
-      padding: 2rem;
+      padding: 1rem;
       display: flex;
       flex-direction: column;
+
+      .total-sum-of-price-container {
+        display: flex;
+        width: 100%;
+        .total-sum-text {
+          font-size: 1.5rem;
+          text-transform: capitalize;
+        }
+        .total-sum-underline {
+          align-self: flex-end;
+          margin: 0.1875rem 0.3125rem;
+        }
+        .total-sum-of-price {
+          font-size: 1.4375rem;
+          align-self: center;
+          width: 6.25rem;
+          width: 6.8125rem;
+        }
+      }
+
       .order-list {
         display: flex;
         flex-direction: column;
         .order-list-item {
           padding: 1rem 0;
+          .total-price-from-title {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: -1.25rem;
+            > .total-price {
+              text-transform: capitalize;
+            }
+          }
           .order-item-container {
             min-height: 1.875rem;
             display: flex;
@@ -49,14 +90,9 @@
             padding: 0.5rem 0;
 
             .item-title {
-              font-size: 1.25rem;
               font-weight: 700;
-            }
-            .underline {
-              border-bottom: dashed 0.0625rem rgba(0, 0, 0, 0.4);
               width: 100%;
-              margin: 0 0.4rem;
-              align-self: center;
+              margin: 0.8125rem 0;
             }
 
             .arrow-amount-container {

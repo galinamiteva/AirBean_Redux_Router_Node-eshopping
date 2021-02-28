@@ -19,13 +19,12 @@ function Menu(props) {
       let saveOrder = JSON.stringify(order);
       localStorage.setItem('order', saveOrder);
       dispatch(cartAmount(order.length))
+
     }
     else {
       order = [...oldOrder, { id: id, title: title, price: price }]
-      console.log("NEW ORDER: ", order)
       localStorage.setItem('order', JSON.stringify(order));
       dispatch(cartAmount(order.length))
-
     }
   }
 
@@ -36,12 +35,12 @@ function Menu(props) {
       <h1 className="menu-title">meny</h1>
       {props.apiStatus &&
         <>
-          <h2 className="server-status-title">Server is down.. please check why!</h2>
+          <h2 className="server-status-title">Servern är nere... kolla upp felet!</h2>
           <img src={loadingAnimation} className="animation" alt="Laddnings tid med kaffe" />
         </>
       }
       {!props.apiStatus &&
-        <ul>
+        <ul className="coffee-types">
           {
             props.list.map((index, key) => <li className="coffee-type" key={index.id}>
               <div className="button-container">

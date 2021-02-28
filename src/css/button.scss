@@ -22,7 +22,7 @@
     border-radius: 2rem;
     color: $Airbean_white;
     margin: 2rem auto;
-    > h2 {
+    > .button-text {
       font-family: $ptserif;
       font-weight: 700;
       font-size: 1.5rem;
@@ -69,11 +69,19 @@
   align-items: flex-end;
   padding: 0;
   background-color: transparent;
-  &.arrow-up {
+  &.up {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 0.5rem;
+    background: url("../assets/graphics/arrow-up.svg") no-repeat center center;
   }
 
-  &.arrow-down {
+  &.down {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 0.5rem;
+    background: url("../assets/graphics/arrow-down.svg") no-repeat center center;
   }
 }

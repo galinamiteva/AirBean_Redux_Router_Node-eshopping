@@ -1,6 +1,6 @@
-const DisplayCartReducer = (state = false, action) => {
+const DisplayMenuReducer = (state = false, action) => {
   switch (action.type) {
-    case 'DISPLAYCART':
+    case 'DISPLAYMENU':
       if (state === true) {
         action.display = false;
         return action.display;
@@ -16,4 +16,4 @@ const DisplayCartReducer = (state = false, action) => {
   }
 }
 
-export default DisplayCartReducer;
+export default DisplayMenuReducer;

@@ -20,14 +20,9 @@ main {
   font-family: $ptserif;
   @import "./button.scss";
 
-  .error-404 {
-    font-size: 3rem;
-    font-family: $worksans;
-    font-weight: 700;
-    color: $Airbean_green;
-    padding: 4rem;
-  }
-  .home-section {
+  .home-section,
+  .about-section,
+  .error-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,9 +31,20 @@ main {
     margin: 0 auto;
     @import "./home.scss";
     @import "./menu.scss";
+    @import "./about.scss";
+    @import "./error.scss";
   }
 
-  .cart-container {
+  .underline,
+  .total-sum-underline {
+    border-bottom: dashed 0.0625rem rgba(0, 0, 0, 0.4);
+    width: 100%;
+    align-self: center;
+    margin-right: 0.625rem;
+  }
+
+  .cart-container,
+  .menu-container {
     position: relative;
     &.adapt {
       z-index: 2;
