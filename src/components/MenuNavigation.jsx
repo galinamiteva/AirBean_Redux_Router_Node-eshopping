@@ -1,25 +1,39 @@
-import React from 'react';
-import { displayMenu } from '../actions';
-import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { headerDisplay } from '../actions';
 
 function MenuNavigation(props) {
   const dispatch = useDispatch();
-  const display = useSelector(state => state.displayMenu);
-  console.log(display);
+  const [displayMenu, updateDisplayMenu] = useState(false);
+
+  const toggleCheck = (e) => {
+    if (!displayMenu) {
+      localStorage.setItem('display', true)
+      updateDisplayMenu(true);
+      dispatch(headerDisplay(true))
+
+    }
+    else {
+      localStorage.setItem('display', false)
+      updateDisplayMenu(false);
+      dispatch(headerDisplay(false))
+    }
+  }
+
   return (
     <>
-      <div className={`menu-container ${display ? 'adapt' : 'non-adapt'}`}>
-        <button className={`${display ? 'adapt' : 'non-adapt'} btn navigation`} onClick={(e) => dispatch(displayMenu(display))}>
-          <div className="nav-icon"></div>
+      <div className={`menu-container ${displayMenu ? 'adapt' : 'non-adapt'}`}>
+        <button className={`${displayMenu ? 'adapt' : 'non-adapt'} btn navigation`} onClick={toggleCheck}>
+          <div className={`${displayMenu ? 'adapt' : 'non-adapt'} nav-icon`}></div>
         </button>
       </div>
-      {display &&
-        <div className={`links-box ${display ? 'adapt' : 'non-adapt'}`}>
-          <div class="links-container">
+      {displayMenu &&
+        <div className={`links-box ${displayMenu ? 'adapt' : 'non-adapt'}`}>
+          <div className="links-container">
             <ul className="links">
-              <li className="link"><Link to="/">Meny</Link></li>
-              <li className="link"><Link to="/about">Vårt Kaffe</Link></li>
+              <li className="link"><Link onClick={toggleCheck} to="/">Meny</Link></li>
+              <li className="link"><Link onClick={toggleCheck} to="/about">Vårt Kaffe</Link></li>
             </ul>
           </div>
         </div>

@@ -15,7 +15,7 @@ function Home(props) {
     dispatch(cartAmount(oldOrder.length))
   }
   const
-    [loading, updateLoading] = useState(true),
+    [loading, updateLoading] = useState(localStorage.getItem('loading')),
     // Sätter upp menu
     [menu, updateMenu] = useState([]),
     // Check om api-servern är på eller inte
@@ -32,11 +32,11 @@ function Home(props) {
       updateMenu(res.data.menu);
     }).catch(err => {
       updateApiDown(true)
-    });
+    }, []);
 
     const timer = setTimeout(() => {
       updateLoading(false);
-      //Kolla sidan om vår localstorage har data kvar från senaste avstängning... har vi då laddar vi om den
+      //Kolla sidan om vår localstorage har data kvar från senaste avstängning... har vi, då laddar vi om den
       if (oldOrder === null) {
         return;
       }
@@ -45,7 +45,7 @@ function Home(props) {
       }
     }, 2000);
     return () => clearTimeout(timer);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
 
@@ -53,7 +53,7 @@ function Home(props) {
     <section className='home-section' >
       {!loading && <Menu apiStatus={apiDown} list={menu} />}
       {loading &&
-        <div className='home-container'>
+        <div className='home-container '>
           <img src={ImageLeft} className='home-left' alt='home-left' />
           <img src={AirbeanLanding} className='home-center' alt='home-center' />
           <img src={ImageRight} className='home-right' alt='home-right' />

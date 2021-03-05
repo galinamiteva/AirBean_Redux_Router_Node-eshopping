@@ -5,7 +5,8 @@
   &.navigation,
   &.add,
   &.cart,
-  &.accept-order {
+  &.accept-order,
+  &.done {
     border: none;
     display: flex;
     justify-content: center;
@@ -16,7 +17,9 @@
       pointer-events: none;
     }
   }
-  &.accept-order {
+
+  &.accept-order,
+  &.done {
     width: 15.5rem;
     height: 3.4375rem;
     border-radius: 2rem;
@@ -29,6 +32,15 @@
     }
   }
 
+  &.done {
+    background: $Airbean_white;
+    color: $Airbean_brown;
+    text-decoration: none;
+    :hover {
+      text-decoration: underline;
+    }
+  }
+
   &.navigation {
     background: $Airbean_white;
     height: 3rem;
@@ -36,7 +48,12 @@
     > div {
       height: 1.625rem;
       width: 1.625rem;
-      background: url("../assets/graphics/navicon.svg") center center no-repeat;
+      &.adapt {
+        background: url("../assets/graphics/close.svg") center center no-repeat;
+      }
+      &.non-adapt {
+        background: url("../assets/graphics/navicon.svg") center center no-repeat;
+      }
     }
   }
 
@@ -69,6 +86,8 @@
   align-items: flex-end;
   padding: 0;
   background-color: transparent;
+  position: relative;
+  z-index: 3;
   &.up {
     display: flex;
     justify-content: center;

@@ -1,13 +1,12 @@
 @keyframes loading {
   from {
-    opacity: 1;
-  }
-  to {
-    display: none;
     opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
 }
-
+@import "./menu-list.scss";
 .menu-for-different-coffee {
   margin-top: 2rem;
   position: relative;
@@ -15,13 +14,10 @@
   width: 100%;
   margin-bottom: 2rem;
   @import "./cart-order.scss";
-  @import "./menu-list.scss";
-  .animation {
+  &.loading-done {
     // Liten "waiting screen"
-    margin: 0 auto;
-    opacity: 0;
-    display: block;
-    animation: loading 4s;
+    opacity: 1;
+    animation: loading 500ms;
   }
   .server-status-title {
     margin-top: 2rem;
@@ -53,13 +49,18 @@
     .title-and-price {
       display: flex;
       justify-content: center;
+
+      .underline {
+        align-self: flex-end;
+      }
+
       .title {
-        font-size: 1.1rem;
+        font-size: 1.4375rem;
         font-weight: 700;
         display: flex;
-        width: 100%;
-        border-bottom: dashed 0.0625rem rgba(0, 0, 0, 0.4);
-        margin-bottom: 0.3rem;
+        min-width: calc(100% - 4.6875rem);
+        border-bottom: 0.0625rem dashed rgba(0, 0, 0, 0.4);
+        line-height: 1.1875rem;
       }
       .price {
         font-size: 1.3rem;
@@ -71,12 +72,10 @@
       }
     }
     .sub-title {
+      margin-top: 0.5rem;
       font-size: 0.75rem;
       font-weight: 400;
       font-family: $worksans;
     }
-  }
-  .coffee-types {
-    margin-bottom: 10rem;
   }
 }

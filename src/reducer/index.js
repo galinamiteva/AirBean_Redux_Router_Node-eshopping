@@ -1,15 +1,12 @@
 import { combineReducers } from 'redux'
 import CartAmount from './CartAmountReducer';
-import DisplayCart from './DisplayCartReducer';
+import HeaderDisplay from './HeaderDisplayReducer';
 import TotalPrice from './TotalPriceReducer';
-import DisplayMenu from './DisplayMenuReducer';
-
 
 const allReducers = combineReducers({
   cartAmount: CartAmount,
-  displayCart: DisplayCart,
   totalPrice: TotalPrice,
-  displayMenu: DisplayMenu
+  headerDisplay: HeaderDisplay
 })
 
 export default allReducers;

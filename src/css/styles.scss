@@ -22,7 +22,8 @@ main {
 
   .home-section,
   .about-section,
-  .error-section {
+  .error-section,
+  .status-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,6 +34,7 @@ main {
     @import "./menu.scss";
     @import "./about.scss";
     @import "./error.scss";
+    @import "./status.scss";
   }
 
   .underline,

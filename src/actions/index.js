@@ -5,20 +5,12 @@ export const cartAmount = (amount) => {
   }
 }
 
-export const displayOrder = (boolean) => {
-  return {
-    type: 'DISPLAYCART',
-    display: boolean
-  }
-}
-
-export const displayMenu = (boolean) => {
+export const headerDisplay = (boolean) => {
   return {
     type: 'DISPLAYMENU',
     display: boolean
   }
 }
-
 
 export const totalPrice = (totalPrice) => {
   return {

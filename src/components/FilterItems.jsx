@@ -2,9 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { cartAmount, totalPrice } from '../actions';
+
+
 function FilterItems(props) {
   const dispatch = useDispatch();
-  //Smyg kickar igång senaste TotalPrice från localStorage
+  let totalOf = [];
+  let totalOfAllOrderInPrice = 0;
+  const [menu, updateMenu] = useState([{}])
   const sneakyLoad = () => {
     if (localStorage.getItem('totalPrice') === 0) {
       return;
@@ -14,17 +18,17 @@ function FilterItems(props) {
     }
   }
 
-  let totalOf = [];
-  let totalOfAllOrderInPrice = 0;
-  const [menu, updateMenu] = useState([{}])
+  useEffect(() => {
+    sneakyLoad();
+  })
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/beans').then(res => {
       updateMenu(res.data.menu)
     }).catch(err => console.error(err));
+  }, [])
 
-    sneakyLoad()
-  }, [menu])
+
 
   // Min super "advancerad" filter system (jag kunde nog minska denna om jag visste ett bättre sätt)
   const FilterLoop = () => {
@@ -122,7 +126,6 @@ function FilterItems(props) {
             <span className="underline" />
           </div>
         </div>
-
       </div>
     </li>)
 

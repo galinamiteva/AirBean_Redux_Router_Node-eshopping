@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
@@ -12,17 +11,17 @@ import Status from './pages/Status';
 import NoMatch from './pages/NoMatch';
 
 function App() {
+  localStorage.setItem('loading', true);
+  localStorage.setItem('display', false);
 
   return (
     <main className="App">
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path='/about' component={About} />
-          <Route path='/status' component={Status} />
-          <Route path='*' component={NoMatch} />
-        </Switch>
-      </Router>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path='/about' component={About} />
+        <Route path='/status' component={Status} />
+        <Route path='*' component={NoMatch} />
+      </Switch>
     </main>
   );
 }

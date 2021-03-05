@@ -1,9 +1,16 @@
-header {
+.header-container {
   position: absolute;
   top: 0;
-  width: 21.4375rem;
+  width: 91.5%;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  &.non-adapt {
+    min-height: 0;
+  }
+  &.adapt {
+    min-height: calc(100% - 34px);
+  }
 }

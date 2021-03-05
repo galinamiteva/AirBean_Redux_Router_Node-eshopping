@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ImageTop from '../assets/graphics/graphics-header.svg';
 import ImageBottom from '../assets/graphics/graphics-footer.svg';
 import Header from '../components/Header.jsx';
@@ -8,6 +8,7 @@ import { cartAmount } from '../actions';
 
 function Menu(props) {
   const dispatch = useDispatch();
+  const [loading, updateLoading] = useState(localStorage.getItem('loading'));
 
   const addOrder = (e) => {
     let price = e.target.dataset.price;
@@ -15,11 +16,11 @@ function Menu(props) {
     let id = e.target.dataset.id;
     let order = [{ id: id, title: title, price: price }]
     let oldOrder = JSON.parse(localStorage.getItem('order'));
+
     if (oldOrder === null) {
       let saveOrder = JSON.stringify(order);
       localStorage.setItem('order', saveOrder);
       dispatch(cartAmount(order.length))
-
     }
     else {
       order = [...oldOrder, { id: id, title: title, price: price }]
@@ -27,9 +28,12 @@ function Menu(props) {
       dispatch(cartAmount(order.length))
     }
   }
+  useEffect(() => {
+    updateLoading(true);
+  }, [])
 
   return (
-    <div className="menu-for-different-coffee">
+    <div className={`menu-for-different-coffee ${loading ? 'loading-done' : 'loading'}`}>
       <Header />
       <img className="image image-bottom" src={ImageTop} alt="Leaf on top of the screen" />
       <h1 className="menu-title">meny</h1>
